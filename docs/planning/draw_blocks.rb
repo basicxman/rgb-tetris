@@ -6,7 +6,7 @@
 # Draw BlockPrototype
 
 require 'gosu'
-require 'blockprototype'
+require 'block_prototype'
 
 class GameWindow < Gosu::Window
 
