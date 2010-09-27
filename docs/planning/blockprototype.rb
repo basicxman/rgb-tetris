@@ -55,7 +55,10 @@ module Tetrominoes
 
   # Define the Tetrominoes...
   
-  # ----
+  # ----  - ----  -
+  #       -       -
+  #       -       -
+  #       -       -
   MinoI = BlockPrototype.new(
     Orientation.new(0, 0, 1, 0, 2, 0, 3, 0),
     Orientation.new(1, 0, 1, 1, 1, 2, 1, 3),
@@ -63,14 +66,14 @@ module Tetrominoes
     Orientation.new(1, 0, 1, 1, 1, 2, 1, 3)
   )
   
-  # -
-  # ---
+  # -   -- ---  -
+  # --- -    -  -
+  #     -      --
   MinoJ = BlockPrototype.new(
     Orientation.new(0, 0, 0, 1, 1, 1, 2, 1),
     Orientation.new(1, 0, 0, 0, 0, 1, 0, 2),
     Orientation.new(2, 1, 2, 0, 1, 0, 0, 0),
     Orientation.new(0, 2, 1, 2, 1, 1, 1, 0)
   )
-
   
 end
