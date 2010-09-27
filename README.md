@@ -7,6 +7,7 @@ Acronym
 +  G Gosu
 +  B ?
 +  T tetris!
+
 Still working on the B.
 
 Overview
