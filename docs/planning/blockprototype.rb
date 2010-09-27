@@ -47,6 +47,27 @@ module Tetrominoes
     def initialize(up, right, down, left)
       @orientations = { :up => up, :right => right, :down => down, :left => left }
     end
+    
+    def ascii_render(orientation)
+      raise ArgumentError, "Invalid orientation." unless @orienatations.include? orientation
+      orientation = @orientations[orientation]
+      
+      grid = Array.new(4).map { |x| x = Array.new(4, " ") }
+      orientation.blocks.each do |block|
+        grid[block.x][block.y] = "-"
+      end
+      
+      render = ""
+      
+      0.upto(3) do |y|
+        0.upto(3) do |x|
+          render += grid[x][y]
+        end
+        render += "\n"
+      end
+      
+      render
+    end
   end
   
 end
