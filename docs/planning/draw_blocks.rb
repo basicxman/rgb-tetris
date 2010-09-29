@@ -7,11 +7,12 @@
 
 require 'gosu'
 require File.expand_path(File.dirname(__FILE__) + '/block_prototype')
+require File.expand_path(File.dirname(__FILE__) + '/game_config')
 
 class GameWindow < Gosu::Window
 
   def initialize
-    super(420, 800, false)
+    super(GameConfig::window_width, GameConfig::window_height, false)
     
     self.caption = "Block Drawing Prototype | rgb-tetris"
     
