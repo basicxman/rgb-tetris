@@ -37,10 +37,6 @@ class TestGameWindow < GameWindow
   
 end
 
-module ZIndex
-  Tetromino = 0
-end
-
 class Tetromino
   
   def initialize(window, block_prototype)
@@ -62,7 +58,7 @@ class Tetromino
   
   def draw
     grab_blocks do |x, y|
-      @box_image.draw(x, y, ZIndex::Tetromino)
+      @box_image.draw(x, y, GameConfig::ZIndex::Tetromino)
     end
   end
   

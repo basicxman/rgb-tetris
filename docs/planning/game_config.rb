@@ -19,5 +19,10 @@ module GameConfig
   def self.window_height
     WINDOW_HEIGHT_BOXES * BOX_HEIGHT_PIXELS
   end
+  
+  
+  module ZIndex
+    Tetromino = 0
+  end
 
 end
