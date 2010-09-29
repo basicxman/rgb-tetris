@@ -6,6 +6,7 @@
 # Draw BlockPrototype
 
 require 'gosu'
+require 'set'
 require File.expand_path(File.dirname(__FILE__) + '/block_prototype')
 require File.expand_path(File.dirname(__FILE__) + '/game_config')
 
@@ -26,7 +27,9 @@ class TestGameWindow < GameWindow
 
   def initialize
     super
-    @tetromino_set = [Tetromino.new(self, :t)]
+    @tetromino_set  = [Tetromino.new(self, :t)]
+    @keyboard_cycle = 1
+    @press_queue    = Set.new
   end
   
   def draw
@@ -36,20 +39,54 @@ class TestGameWindow < GameWindow
   end
   
   def update
-  end
-  
-  def button_up(button)
-    if button == Gosu::Button::KbLeft
-      @tetromino_set.each { |mino| mino.move_left }
-    elsif button == Gosu::Button::KbRight
-      @tetromino_set.each { |mino| mino.move_right }
-    elsif button == Gosu::Button::KbDown
-      @tetromino_set.each { |mino| mino.move_down }
-    elsif button == Gosu::Button::KbUp
-      @tetromino_set.each { |mino| mino.rotate }
-    elsif button == Gosu::Button::KbEscape
+    if button_down? Gosu::Button::KbEscape
       close
     end
+    
+    queue_key_presses
+    
+    if enable_controls?
+      @tetromino_set.each { |mino| mino.move_left  } if queued? :left
+      @tetromino_set.each { |mino| mino.move_right } if queued? :right
+      @tetromino_set.each { |mino| mino.move_down  } if queued? :down
+      @tetromino_set.each { |mino| mino.rotate     } if queued? :up
+    end      
+  
+    increment_keyboard_cycle
+  end
+  
+  def enable_controls?
+    @keyboard_cycle == 1
+  end
+  
+  def increment_keyboard_cycle
+    @keyboard_cycle += 1
+    if @keyboard_cycle == GameConfig::KEYBOARD_CYCLE_LENGTH
+      @keyboard_cycle = 1
+      @press_queue.clear
+    end
+  end
+  
+  def queue_key_presses
+    if button_down? Gosu::Button::KbLeft
+      @press_queue.add(:left)
+    end
+    
+    if button_down? Gosu::Button::KbRight
+      @press_queue.add(:right)
+    end
+    
+    if button_down? Gosu::Button::KbDown
+      @press_queue.add(:down)
+    end
+    
+    if button_down? Gosu::Button::KbUp
+      @press_queue.add(:up)
+    end
+  end
+  
+  def queued?(key)
+    @press_queue.include? key
   end
   
 end

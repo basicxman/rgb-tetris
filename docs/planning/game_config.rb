@@ -15,6 +15,8 @@ module GameConfig
   ORIENTATION_ORDER   = [:up, :right, :down, :left]
   ROTATION_DIRECTION  = :left
   
+  KEYBOARD_CYCLE_LENGTH = 6
+  
   def self.window_width
     WINDOW_WIDTH_BOXES * BOX_WIDTH_PIXELS
   end
