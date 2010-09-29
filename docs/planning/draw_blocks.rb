@@ -46,7 +46,7 @@ class TestGameWindow < GameWindow
     elsif button == Gosu::Button::KbDown
       @tetromino_set.each { |mino| mino.move_down }
     elsif button == Gosu::Button::KbUp
-      @tetromino_set.each { |mino| mino.rotate_left }
+      @tetromino_set.each { |mino| mino.rotate }
     elsif button == Gosu::Button::KbEscape
       close
     end
@@ -71,6 +71,7 @@ class Tetromino
       when :t then Tetrominoes::MinoT
     end
     @cur_orientation = :up
+    @order = GameConfig::ORIENTATION_ORDER
   end
   
   def draw
@@ -79,20 +80,13 @@ class Tetromino
     end
   end
   
-  def rotate_left
-    current = GameConfig::ORIENTATION_ORDER.index @cur_orientation
-    current -= 1
-    current %= GameConfig::ORIENTATION_ORDER.length
-    @cur_orientation = GameConfig::ORIENTATION_ORDER[current]
+  def rotate
+    current = @order.index(@cur_orientation)
+    current = GameConfig::ROTATION_DIRECTION == :left ? current - 1 : current + 1
+    current %= @order.length
+    @cur_orientation = @order[current]
   end
-  
-  def rotate_right
-    current = GameConfig::ORIENTATION_ORDER.index @cur_orientation
-    current += 1
-    current %= GameConfig::ORIENTATION_ORDER.length
-    @cur_orientation = GameConfig::ORIENTATION_ORDER[current]
-  end
-  
+
   def move_down
     @cur_y += 1 unless @cur_y == GameConfig::WINDOW_HEIGHT_BOXES
   end 

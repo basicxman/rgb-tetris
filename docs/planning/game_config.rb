@@ -13,6 +13,7 @@ module GameConfig
   WINDOW_HEIGHT_BOXES = 20
   
   ORIENTATION_ORDER   = [:up, :right, :down, :left]
+  ROTATION_DIRECTION  = :left
   
   def self.window_width
     WINDOW_WIDTH_BOXES * BOX_WIDTH_PIXELS
