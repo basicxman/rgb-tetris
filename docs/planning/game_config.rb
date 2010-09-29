@@ -12,6 +12,8 @@ module GameConfig
   WINDOW_WIDTH_BOXES  = 14
   WINDOW_HEIGHT_BOXES = 20
   
+  ORIENTATION_ORDER   = [:up, :right, :down, :left]
+  
   def self.window_width
     WINDOW_WIDTH_BOXES * BOX_WIDTH_PIXELS
   end
@@ -24,5 +26,5 @@ module GameConfig
   module ZIndex
     Tetromino = 0
   end
-
+  
 end

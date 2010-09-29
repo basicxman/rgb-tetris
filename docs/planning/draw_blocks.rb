@@ -35,6 +35,23 @@ class TestGameWindow < GameWindow
     end
   end
   
+  def update
+  end
+  
+  def button_up(button)
+    if button == Gosu::Button::KbLeft
+      @tetromino_set.each { |mino| mino.move_left }
+    elsif button == Gosu::Button::KbRight
+      @tetromino_set.each { |mino| mino.move_right }
+    elsif button == Gosu::Button::KbDown
+      @tetromino_set.each { |mino| mino.move_down }
+    elsif button == Gosu::Button::KbUp
+      @tetromino_set.each { |mino| mino.rotate_left }
+    elsif button == Gosu::Button::KbEscape
+      close
+    end
+  end
+  
 end
 
 class Tetromino
@@ -62,19 +79,47 @@ class Tetromino
     end
   end
   
-  def grab_blocks
-    @tetromino.orientations[@cur_orientation].blocks.each_value do |block|
-      yield calculate_absolute_x(block.x), calculate_absolute_y(block.y)
+  def rotate_left
+    current = GameConfig::ORIENTATION_ORDER.index @cur_orientation
+    current -= 1
+    current %= GameConfig::ORIENTATION_ORDER.length
+    @cur_orientation = GameConfig::ORIENTATION_ORDER[current]
+  end
+  
+  def rotate_right
+    current = GameConfig::ORIENTATION_ORDER.index @cur_orientation
+    current += 1
+    current %= GameConfig::ORIENTATION_ORDER.length
+    @cur_orientation = GameConfig::ORIENTATION_ORDER[current]
+  end
+  
+  def move_down
+    @cur_y += 1 unless @cur_y == GameConfig::WINDOW_HEIGHT_BOXES
+  end 
+  
+  def move_left
+    @cur_x -= 1 unless @cur_x == 0
+  end 
+  
+  def move_right
+    @cur_x += 1 unless @cur_x == GameConfig::WINDOW_WIDTH_BOXES
+  end 
+  
+  private 
+  
+    def grab_blocks
+      @tetromino.orientations[@cur_orientation].blocks.each_value do |block|
+        yield calculate_absolute_x(block.x), calculate_absolute_y(block.y)
+      end
     end
-  end
-  
-  def calculate_absolute_x(relative_x)
-    @cur_x * 30 + relative_x * 30
-  end
-  
-  def calculate_absolute_y(relative_y)
-    @cur_y * 30 + relative_y * 30
-  end
+    
+    def calculate_absolute_x(relative_x)
+      @cur_x * 30 + relative_x * 30
+    end
+    
+    def calculate_absolute_y(relative_y)
+      @cur_y * 30 + relative_y * 30
+    end
   
 end
 
