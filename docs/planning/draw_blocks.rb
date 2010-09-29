@@ -14,19 +14,27 @@ class GameWindow < Gosu::Window
   def initialize
     super(GameConfig::window_width, GameConfig::window_height, false)
     
-    self.caption = "Block Drawing Prototype | rgb-tetris"
-    
-    create_test_tetromino
-  end
-  
-  def create_test_tetromino
-    @test_tetromino = Tetromino.new(self, :t)
+    self.caption = "Block Drawing Prototype | rgb-tetris"    
   end
   
   def draw
-    @test_tetromino.draw unless @test_tetromino.nil?
   end
 
+end
+
+class TestGameWindow < GameWindow
+
+  def initialize
+    super
+    @tetromino_set = [Tetromino.new(self, :t)]
+  end
+  
+  def draw
+    @tetromino_set.each do |mino|
+      mino.draw
+    end
+  end
+  
 end
 
 module ZIndex
@@ -74,5 +82,5 @@ class Tetromino
   
 end
 
-window = GameWindow.new
+window = TestGameWindow.new
 window.show
