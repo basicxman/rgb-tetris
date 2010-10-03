@@ -28,7 +28,7 @@ class TestGameWindow < GameWindow
 
   def initialize
     super
-    @cur_tetromino  = Tetromino.new(self, :t)
+    @cur_tetromino  = Tetromino.new(self, :z)
     @keyboard_cycle = 1
     @press_queue    = Set.new
   end
