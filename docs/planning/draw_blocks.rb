@@ -68,23 +68,15 @@ class Tetromino
   attr_accessor :state_machine
   
   def initialize(window, block_prototype)
-    @window    = window
-    @cur_x     = 1
-    @cur_y     = 1      
-    @box_image = Gosu::Image.new(@window, "box.png", false) 
-    @tetromino = case block_prototype
-      when :i then Tetrominoes::MinoI
-      when :j then Tetrominoes::MinoJ
-      when :l then Tetrominoes::MinoL
-      when :o then Tetrominoes::MinoO
-      when :s then Tetrominoes::MinoS
-      when :z then Tetrominoes::MinoZ
-      when :t then Tetrominoes::MinoT
-    end
+    @window          = window
+    @cur_x           = 1
+    @cur_y           = 1      
+    @box_image       = Gosu::Image.new(@window, "box.png", false) 
+    @tetromino       = Tetrominoes::get_tetromino(block_prototype)
     @cur_orientation = :up
     @order           = GameConfig::ORIENTATION_ORDER
 
-    cycle = GameConfig::RELATIVE_STATE_CYCLE
+    cycle            = GameConfig::RELATIVE_STATE_CYCLE
     @state_machine   = KeyboardStateMachine.new
     @state_machine.define_action(:shift_left,  cycle) { move_left }
     @state_machine.define_action(:shift_right, cycle) { move_right }

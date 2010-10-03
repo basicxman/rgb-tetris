@@ -53,6 +53,18 @@ module Tetrominoes
     end
   end
 
+  def self.get_tetromino(tetromino_symbol)
+    return case tetromino_symbol
+      when :i then MinoI
+      when :j then MinoJ
+      when :l then MinoL
+      when :o then MinoO
+      when :s then MinoS
+      when :z then MinoZ
+      when :t then MinoT
+    end
+  end
+
   # Define the Tetrominoes...
   
   # ----
