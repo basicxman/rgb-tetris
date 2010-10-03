@@ -57,6 +57,8 @@ class TestGameWindow < GameWindow
     if button_down? Gosu::Button::KbDown
       @cur_tetromino.state_machine.execute_if_clear(:move_down)
     end
+    
+    @cur_tetromino.state_machine.advance_state
   end
   
 end
@@ -81,11 +83,13 @@ class Tetromino
     end
     @cur_orientation = :up
     @order           = GameConfig::ORIENTATION_ORDER
-    @state_machine   = GameStateMachine.new
-    @state_machine.define_action(:shift_left)  { move_left }
-    @state_machine.define_action(:shift_right) { move_right }
-    @state_machine.define_action(:move_down)   { move_down }
-    @state_machine.define_action(:rotate)      { rotate }
+
+    cycle = GameConfig::RELATIVE_STATE_CYCLE
+    @state_machine   = KeyboardStateMachine.new
+    @state_machine.define_action(:shift_left,  cycle) { move_left }
+    @state_machine.define_action(:shift_right, cycle) { move_right }
+    @state_machine.define_action(:move_down,   cycle) { move_down }
+    @state_machine.define_action(:rotate,      cycle) { rotate }
   end
   
   def draw
