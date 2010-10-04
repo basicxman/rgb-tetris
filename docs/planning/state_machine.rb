@@ -10,6 +10,10 @@
 class KeyboardStateMachine
   
   # Creates a new KeyboardStateMachine instance with a blank actions Hash.
+  #
+  # @example create a new state machine
+  # keyboard = KeyboardStateMachine.new
+  # keyboard.define_action(....)
   def initialize
     @actions = {}
   end
@@ -19,6 +23,14 @@ class KeyboardStateMachine
   # @param [Symbol] symbol_call a symbol which references an action/state pair.
   # @param [Fixnum] threshold the state will refresh to :none after this threshold is reached.
   # @param [Block] &proc a block containing an executable action.
+  #
+  # @raise AlreadyDefinedAction if the action already exists in the instance's Hash.
+  # @raise NoProcedureGiven if no block is given to execute
+  #
+  # @example defining an action which refreshes state after five cycles.
+  # keyboard_state_machine.define_action(:move_left, 5) do
+  #   character.position.x -= 1
+  # end
   def define_action(symbol_call, threshold, &proc)
     raise AlreadyDefinedAction, "Action #{symbol_call.inspect} is already defined." if @actions.member? symbol_call
     raise NoProcedureGiven, "No block given to execute." unless block_given?
