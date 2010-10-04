@@ -5,12 +5,20 @@
 # Tetris Planning
 # Action State Machine
 
+# Holds actions with a current state in order to provide relative keyboard 
+# polling cycles thus allowing for smooth motion.
 class KeyboardStateMachine
   
+  # Creates a new KeyboardStateMachine instance with a blank actions Hash.
   def initialize
     @actions = {}
   end
   
+  # Defines a new action with a state, iteration and action. 
+  #
+  # @param [Symbol] symbol_call a symbol which references an action/state pair.
+  # @param [Fixnum] threshold the state will refresh to :none after this threshold is reached.
+  # @param [Block] &proc a block containing an executable action.
   def define_action(symbol_call, threshold, &proc)
     raise AlreadyDefinedAction, "Action #{symbol_call.inspect} is already defined." if @actions.member? symbol_call
     raise NoProcedureGiven, "No block given to execute." unless block_given?
@@ -47,8 +55,8 @@ class KeyboardStateMachine
     def increment_iterator_of(symbol_call)
       @actions[symbol_call][:iterator] += 1
       if reached_threshold? symbol_call
-          reset_iterator_of symbol_call
-          change_state_of   symbol_call, :none
+        reset_iterator_of symbol_call
+        change_state_of   symbol_call, :none
       end
     end 
     
